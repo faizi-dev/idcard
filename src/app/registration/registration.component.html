@@ -1,0 +1,278 @@
+<section class="registration">
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-2xl font-semibold text-surface-900">Student Registration</h2>
+        <button class="btn btn-secondary" routerLink="/students">
+            <span class="material-icons">arrow_back</span>
+            Back to List
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Registration Form -->
+        <div class="lg:col-span-8">
+            <div class="card">
+                <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Personal Information -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                <span class="material-icons text-primary-500">person</span>
+                                Personal Information
+                            </h3>
+
+                            <div class="form-group">
+                                <label class="form-label" for="fullName">Full Name</label>
+                                <input type="text" id="fullName" class="form-control" formControlName="fullName"
+                                    [class.error]="f['fullName'].touched && f['fullName'].invalid">
+                                <div *ngIf="f['fullName'].touched && f['fullName'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['fullName'].errors?.['required']">Full name is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="address">Address</label>
+                                <textarea id="address" class="form-control" formControlName="address" rows="3"
+                                    [class.error]="f['address'].touched && f['address'].invalid"></textarea>
+                                <div *ngIf="f['address'].touched && f['address'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['address'].errors?.['required']">Address is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="dateOfBirth">Date of Birth</label>
+                                <input type="date" id="dateOfBirth" class="form-control" formControlName="dateOfBirth"
+                                    [class.error]="f['dateOfBirth'].touched && f['dateOfBirth'].invalid">
+                                <div *ngIf="f['dateOfBirth'].touched && f['dateOfBirth'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['dateOfBirth'].errors?.['required']">Date of birth is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="mobileNumber">Mobile Number</label>
+                                <input type="tel" id="mobileNumber" class="form-control" formControlName="mobileNumber"
+                                    [class.error]="f['mobileNumber'].touched && f['mobileNumber'].invalid">
+                                <div *ngIf="f['mobileNumber'].touched && f['mobileNumber'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['mobileNumber'].errors?.['required']">Mobile number is
+                                        required</span>
+                                    <span *ngIf="f['mobileNumber'].errors?.['pattern']">Enter a valid 10-digit mobile
+                                        number</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Academic Information -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                                <span class="material-icons text-primary-500">school</span>
+                                Academic Information
+                            </h3>
+
+                            <div class="form-group">
+                                <label class="form-label" for="prnNumber">PRN Number</label>
+                                <input type="text" id="prnNumber" class="form-control" formControlName="prnNumber"
+                                    [class.error]="f['prnNumber'].touched && f['prnNumber'].invalid">
+                                <div *ngIf="f['prnNumber'].touched && f['prnNumber'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['prnNumber'].errors?.['required']">PRN number is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="rollNumber">Roll Number</label>
+                                <input type="text" id="rollNumber" class="form-control" formControlName="rollNumber"
+                                    [class.error]="f['rollNumber'].touched && f['rollNumber'].invalid">
+                                <div *ngIf="f['rollNumber'].touched && f['rollNumber'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['rollNumber'].errors?.['required']">Roll number is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="yearOfJoining">Year of Joining</label>
+                                <select id="yearOfJoining" class="form-control" formControlName="yearOfJoining"
+                                    [class.error]="f['yearOfJoining'].touched && f['yearOfJoining'].invalid">
+                                    <option value="">Select Year</option>
+                                    <option *ngFor="let year of yearOptions" [value]="year">{{year}}</option>
+                                </select>
+                                <div *ngIf="f['yearOfJoining'].touched && f['yearOfJoining'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['yearOfJoining'].errors?.['required']">Year of joining is
+                                        required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="courseName">Course Name</label>
+                                <select id="courseName" class="form-control" formControlName="courseName"
+                                    [class.error]="f['courseName'].touched && f['courseName'].invalid">
+                                    <option value="">Select Course</option>
+                                    <option *ngFor="let course of courseOptions" [value]="course">{{course}}</option>
+                                </select>
+                                <div *ngIf="f['courseName'].touched && f['courseName'].invalid"
+                                    class="text-error-500 text-sm mt-1">
+                                    <span *ngIf="f['courseName'].errors?.['required']">Course name is required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3 mt-4 pt-6 border-t border-surface-200">
+                        <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                            <span class="material-icons">refresh</span>
+                            Reset Form
+                        </button>
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]="registrationForm.invalid || isSubmitting">
+                            <span class="material-icons">how_to_reg</span>
+                            {{isSubmitting ? 'Registering...' : 'Register Student'}}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Photo Upload and Preview -->
+        <div class="lg:col-span-4">
+            <div class="card">
+                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <span class="material-icons text-primary-500">photo_camera</span>
+                    Student Photo
+                </h3>
+
+                <div class="photo-container">
+                    <div *ngIf="photoPreviewUrl" class="photo-preview">
+                        <img [src]="photoPreviewUrl" alt="Student Photo Preview"
+                            class="w-full h-48 object-cover rounded-lg">
+                        <button type="button" class="btn btn-error mt-3 w-full" (click)="clearPhoto()">
+                            <span class="material-icons">delete</span>
+                            Remove Photo
+                        </button>
+                    </div>
+
+                    <div *ngIf="!photoPreviewUrl" class="photo-upload">
+                        <div class="webcam-container" *ngIf="showWebcam">
+                            <webcam [height]="300" [width]="400" [trigger]="trigger"
+                                (imageCapture)="handleImage($event)"></webcam>
+                            <div class="flex gap-3 mt-3">
+                                <button type="button" class="btn btn-primary flex-1" (click)="capturePhoto()">
+                                    <span class="material-icons">camera</span>
+                                    Capture
+                                </button>
+                                <button type="button" class="btn btn-secondary flex-1" (click)="toggleWebcam()">
+                                    <span class="material-icons">close</span>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!showWebcam" class="upload-options">
+                            <div
+                                class="upload-placeholder p-6 border-2 border-dashed border-surface-300 rounded-lg text-center">
+                                <span class="material-icons text-4xl text-surface-400">add_a_photo</span>
+                                <p class="mt-2 text-surface-600">Upload or capture a photo</p>
+                            </div>
+                            <div class="flex flex-col gap-3 mt-4">
+                                <button type="button" class="btn btn-primary" (click)="toggleWebcam()">
+                                    <span class="material-icons">camera_alt</span>
+                                    Use Camera
+                                </button>
+                                <div class="relative">
+                                    <input type="file" id="photoFile" class="hidden" (change)="onPhotoSelected($event)"
+                                        accept="image/*">
+                                    <label for="photoFile" class="btn btn-secondary w-full text-center cursor-pointer">
+                                        <span class="material-icons">upload</span>
+                                        Upload Photo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ID Card Preview -->
+            <!-- <div class="card mt-4" *ngIf="idCardGenerated">
+                <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <span class="material-icons text-primary-500">credit_card</span>
+                    ID Card Preview
+                </h3>
+
+                <div class="id-card">
+                    <div class="id-card-header">
+                        <h4>Medical College Student ID</h4>
+                    </div>
+                    <div class="id-card-body">
+                        <img [src]="photoPreviewUrl || 'assets/placeholder.jpg'" alt="Student Photo"
+                            class="id-card-photo">
+                        <div class="id-card-info">
+                            <p><strong>Name:</strong> {{registrationForm.value.fullName}}</p>
+                            <p><strong>PRN No:</strong> {{registrationForm.value.prnNumber}}</p>
+                            <p><strong>Roll No:</strong> {{registrationForm.value.rollNumber}}</p>
+                            <p><strong>Course:</strong> {{registrationForm.value.courseName}}</p>
+                            <p><strong>Year:</strong> {{registrationForm.value.yearOfJoining}}</p>
+                        </div>
+                    </div>
+                    <div class="id-card-footer">
+                        <p>Valid till: {{cardValidTill | date:'mediumDate'}}</p>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-full mt-4" (click)="printIDCard()">
+                    <span class="material-icons">print</span>
+                    Print ID Card
+                </button>
+            </div> -->
+
+<div class="student-id-card" *ngIf="idCardGenerated">
+  <!-- Header -->
+  <div class="id-header">
+    <div class="college-logo-left">
+      <img src="assets/logo-left.png" alt="University Logo" />
+    </div>
+    <div class="college-details">
+      <h2>GOVT. OF ANDHRA PRADESH</h2>
+      <h1>KURNOOL MEDICAL COLLEGE</h1>
+      <p>KURNOOL - 518002, PH: 255160</p>
+      <div class="identity-label">IDENTITY CARD</div>
+    </div>
+    <div class="college-logo-right">
+      <img src="assets/logo-right.png" alt="Right Logo" />
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="id-body">
+    <div class="id-info">
+      <p><strong>NAME</strong>: <span class="highlight">{{ registrationForm.value.fullName }}</span></p>
+      <p><strong>COURSE</strong>: <span class="highlight">{{ registrationForm.value.courseName }}</span></p>
+      <p><strong>BATCH</strong>: <span class="highlight">{{ registrationForm.value.yearOfJoining }}</span></p>
+      <p><strong>BLOOD GROUP</strong>: <span class="blood-group">B+ve</span></p>
+      <div class="qr-container">
+        <img src="https://qrexplore.com/icon/apple-icon.png" alt="QR Code" />
+      </div>
+    </div>
+
+    <div class="id-photo-section">
+      <img [src]="photoPreviewUrl || 'assets/placeholder.jpg'" alt="Student Photo" />
+      <p class="signature-line">Signature of Principal</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="id-footer">
+    ADDRESS: 314, PAYING BLOCK, G.G.H., KURNOOL., CELL: 9247159750
+  </div>
+
+  <button class="print-button" (click)="printIDCard()">
+    <span class="material-icons">print</span>
+    Print ID Card
+  </button>
+</div>
+
+        </div>
+    </div>
+</section>

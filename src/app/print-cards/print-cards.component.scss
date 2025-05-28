@@ -1,0 +1,105 @@
+.print-cards {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.section-title {
+    margin-bottom: var(--space-3);
+    color: var(--primary-700);
+    border-bottom: 2px solid var(--primary-200);
+    padding-bottom: var(--space-1);
+}
+
+.student-list {
+    margin-top: var(--space-2);
+}
+
+.select-all-option {
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--neutral-200);
+    margin-bottom: var(--space-1);
+}
+
+.list-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-sm);
+}
+
+.student-item {
+    padding: var(--space-1) var(--space-2);
+    border-bottom: 1px solid var(--neutral-200);
+    transition: background-color 0.2s ease;
+}
+
+.student-item:last-child {
+    border-bottom: none;
+}
+
+.student-item:hover {
+    background-color: var(--neutral-100);
+}
+
+.student-item label {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 100%;
+    margin: 0;
+}
+
+.student-name {
+    font-weight: 500;
+}
+
+.student-info {
+    font-size: 0.875rem;
+    color: var(--neutral-600);
+}
+
+.checkbox-option {
+    margin-bottom: var(--space-1);
+}
+
+.preview-cards {
+    margin-top: var(--space-2);
+    overflow-x: auto;
+}
+
+.preview-card-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background-color: var(--neutral-100);
+    border-radius: var(--radius-md);
+}
+
+.preview-card-layout.single .id-card {
+    width: 100%;
+    max-width: 3.375in;
+}
+
+.preview-card-layout.double .id-card {
+    width: calc(50% - var(--space-1));
+    max-width: 3.375in;
+}
+
+.preview-card-layout.grid .id-card {
+    width: calc(50% - var(--space-1));
+    max-width: 3.375in;
+}
+
+.empty-preview, .empty-list {
+    padding: var(--space-3);
+    text-align: center;
+    color: var(--neutral-500);
+}
+
+@media (max-width: 768px) {
+    .preview-card-layout.double .id-card,
+    .preview-card-layout.grid .id-card {
+    width: 100%;
+    }
+}

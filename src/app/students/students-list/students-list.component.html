@@ -1,0 +1,113 @@
+<section class="students-list fade-in">
+    <h2 class="section-title">Students List</h2>
+    
+    <div class="card">
+    <div class="filter-bar">
+        <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+            <label for="searchQuery">Search</label>
+            <input type="text" id="searchQuery" class="form-control" 
+                    [(ngModel)]="searchQuery" 
+                    placeholder="Search by name, PRN, roll number..." 
+                    (input)="applyFilters()">
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="form-group">
+            <label for="courseFilter">Course</label>
+            <select id="courseFilter" class="form-control" [(ngModel)]="courseFilter" (change)="applyFilters()">
+                <option value="">All Courses</option>
+                <option *ngFor="let course of courseOptions" [value]="course">{{course}}</option>
+            </select>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="form-group">
+            <label for="yearFilter">Year of Joining</label>
+            <select id="yearFilter" class="form-control" [(ngModel)]="yearFilter" (change)="applyFilters()">
+                <option value="">All Years</option>
+                <option *ngFor="let year of yearOptions" [value]="year">{{year}}</option>
+            </select>
+            </div>
+        </div>
+        
+        <div class="col-md-2">
+            <div class="form-group">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary form-control" (click)="resetFilters()">Reset Filters</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table">
+        <thead>
+            <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>PRN Number</th>
+            <th>Roll Number</th>
+            <th>Course</th>
+            <th>Year</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student of filteredStudents">
+            <td>
+                <img [src]="student.photoUrl || 'assets/placeholder.jpg'" alt="Student Photo" class="student-thumbnail">
+            </td>
+            <td>{{student.fullName}}</td>
+            <td>{{student.prnNumber}}</td>
+            <td>{{student.rollNumber}}</td>
+            <td>{{student.courseName}}</td>
+            <td>{{student.yearOfJoining}}</td>
+            <td>
+                <a [routerLink]="['/students', student._id]" class="btn btn-sm btn-primary mr-1">View</a>
+                <button class="btn btn-sm btn-secondary" (click)="printIDCard(student)">Print ID</button>
+            </td>
+            </tr>
+            <tr *ngIf="!filteredStudents.length">
+            <td colspan="7" class="text-center">
+                <p *ngIf="isLoading">Loading students...</p>
+                <p *ngIf="!isLoading && !filteredStudents.length">No students found matching the criteria</p>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+    
+    <div class="pagination-controls" *ngIf="totalPages > 1">
+        <button class="btn btn-sm" 
+                [disabled]="currentPage === 1"
+                (click)="changePage(currentPage - 1)">
+        Previous
+        </button>
+        
+        <span class="page-info">Page {{currentPage}} of {{totalPages}}</span>
+        
+        <button class="btn btn-sm" 
+                [disabled]="currentPage === totalPages"
+                (click)="changePage(currentPage + 1)">
+        Next
+        </button>
+    </div>
+    </div>
+    
+    <div class="card mt-3">
+    <div class="row">
+        <div class="col-md-6">
+        <h3>Bulk Actions</h3>
+        <p>Select students from the list above to perform bulk actions.</p>
+        </div>
+        <div class="col-md-6 text-right">
+        <button class="btn btn-primary" [routerLink]="['/print-cards']">Print Multiple ID Cards</button>
+        <button class="btn btn-secondary ml-2" [routerLink]="['/register']">Register New Student</button>
+        </div>
+    </div>
+    </div>
+</section>

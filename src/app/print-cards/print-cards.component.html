@@ -1,0 +1,157 @@
+<section class="print-cards fade-in">
+    <h2 class="section-title">Print ID Cards</h2>
+    
+    <div class="row">
+    <div class="col-md-4">
+        <div class="card">
+        <h3>Select Students</h3>
+        <p>Choose students whose ID cards you want to print.</p>
+        
+        <div class="filter-options mt-3">
+            <div class="form-group">
+            <label for="searchQuery">Search</label>
+            <input type="text" id="searchQuery" class="form-control" 
+                    [(ngModel)]="searchQuery" 
+                    placeholder="Search by name, PRN, roll number..." 
+                    (input)="applyFilters()">
+            </div>
+            
+            <div class="form-group">
+            <label for="courseFilter">Course</label>
+            <select id="courseFilter" class="form-control" [(ngModel)]="courseFilter" (change)="applyFilters()">
+                <option value="">All Courses</option>
+                <option *ngFor="let course of courseOptions" [value]="course">{{course}}</option>
+            </select>
+            </div>
+            
+            <div class="form-group">
+            <label for="yearFilter">Year of Joining</label>
+            <select id="yearFilter" class="form-control" [(ngModel)]="yearFilter" (change)="applyFilters()">
+                <option value="">All Years</option>
+                <option *ngFor="let year of yearOptions" [value]="year">{{year}}</option>
+            </select>
+            </div>
+        </div>
+        
+        <div class="student-list mt-3">
+            <div class="select-all-option">
+            <label>
+                <input type="checkbox" [checked]="areAllSelected()" (change)="toggleSelectAll()">
+                Select All Students
+            </label>
+            </div>
+            
+            <div class="list-container">
+            <div *ngFor="let student of filteredStudents" class="student-item">
+                <label>
+                <input type="checkbox" 
+                        [checked]="isSelected(student._id || '')" 
+                        (change)="toggleSelection(student._id || '')">
+                <span class="student-name">{{student.fullName}}</span>
+                <span class="student-info">{{student.prnNumber}} - {{student.courseName}}</span>
+                </label>
+            </div>
+            
+            <div *ngIf="filteredStudents.length === 0" class="empty-list">
+                <p>No students match the filter criteria.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+        <h3>Print Options</h3>
+        <p>Configure how you want the ID cards to be printed.</p>
+        
+        <div class="print-options mt-3">
+            <div class="form-group">
+            <label for="cardLayout">Card Layout</label>
+            <select id="cardLayout" class="form-control" [(ngModel)]="printSettings.layout">
+                <option value="single">Single Card per Page</option>
+                <option value="double">Two Cards per Page</option>
+                <option value="grid">Grid Layout (4 per Page)</option>
+            </select>
+            </div>
+            
+            <div class="form-group">
+            <label for="paperSize">Paper Size</label>
+            <select id="paperSize" class="form-control" [(ngModel)]="printSettings.paperSize">
+                <option value="a4">A4</option>
+                <option value="letter">Letter</option>
+                <option value="legal">Legal</option>
+            </select>
+            </div>
+            
+            <div class="form-group">
+            <label>Additional Options</label>
+            <div class="checkbox-option">
+                <label>
+                <input type="checkbox" [(ngModel)]="printSettings.includeQR">
+                Include QR Code
+                </label>
+            </div>
+            <div class="checkbox-option">
+                <label>
+                <input type="checkbox" [(ngModel)]="printSettings.doubleSided">
+                Double-sided Printing
+                </label>
+            </div>
+            <div class="checkbox-option">
+                <label>
+                <input type="checkbox" [(ngModel)]="printSettings.showValidity">
+                Show Card Validity
+                </label>
+            </div>
+            </div>
+        </div>
+        
+        <div class="preview-section mt-3">
+            <h4>Preview</h4>
+            <p>{{selectedStudents.length}} student(s) selected for printing.</p>
+            
+            <div class="preview-cards" *ngIf="selectedStudents.length > 0">
+            <div class="preview-card-layout" [ngClass]="printSettings.layout">
+                <div class="id-card" *ngFor="let id of previewIds">
+                <div class="id-card-header">
+                    <h4>Medical College Student ID</h4>
+                </div>
+                <div class="id-card-body">
+                    <img src="https://randomuser.me/api/portraits/men/{{id}}.jpg" alt="Student Photo" class="id-card-photo">
+                    <div class="id-card-info">
+                    <p><strong>Name:</strong> Student {{id}}</p>
+                    <p><strong>PRN No:</strong> PRN2025{{id.toString().padStart(3, '0')}}</p>
+                    <p><strong>Roll No:</strong> ROLL{{id.toString().padStart(3, '0')}}</p>
+                    <p><strong>Course:</strong> MBBS</p>
+                    <p><strong>Year:</strong> 2023</p>
+                    </div>
+                </div>
+                <div class="id-card-footer" *ngIf="printSettings.showValidity">
+                    <p>Valid till: {{cardValidTill | date:'mediumDate'}}</p>
+                </div>
+                </div>
+            </div>
+            </div>
+            
+            <div class="empty-preview" *ngIf="selectedStudents.length === 0">
+            <p>Select students to see a preview.</p>
+            </div>
+        </div>
+        
+        <div class="print-actions mt-3">
+            <button class="btn btn-primary" 
+                    [disabled]="selectedStudents.length === 0"
+                    (click)="printCards()">
+            Print {{selectedStudents.length}} Card(s)
+            </button>
+            <button class="btn btn-secondary ml-2"
+                    [disabled]="selectedStudents.length === 0"
+                    (click)="clearSelection()">
+            Clear Selection
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>

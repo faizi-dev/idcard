@@ -1,0 +1,145 @@
+<section class="bulk-upload fade-in">
+    <h2 class="section-title">Bulk Upload Students</h2>
+    
+    <div class="row">
+    <div class="col-md-6">
+        <div class="card">
+        <h3>Upload Excel/CSV File</h3>
+        <p>Upload a file containing student data for bulk registration.</p>
+        
+        <div class="file-upload-container mt-3">
+            <div class="file-upload-area" 
+                [class.file-drag-over]="isDragOver"
+                (dragover)="onDragOver($event)" 
+                (dragleave)="onDragLeave()" 
+                (drop)="onFileDrop($event)">
+            
+            <div class="file-upload-content">
+                <span class="material-icons">cloud_upload</span>
+                <p>Drag and drop your file here or</p>
+                <div class="file-input-wrapper">
+                <input type="file" id="fileUpload" 
+                        (change)="onFileSelected($event)"
+                        accept=".xlsx,.xls,.csv">
+                <label for="fileUpload" class="btn btn-primary">Browse Files</label>
+                </div>
+            </div>
+            
+            <div class="file-details" *ngIf="selectedFile">
+                <p><strong>Selected File:</strong> {{selectedFile.name}}</p>
+                <p><strong>Size:</strong> {{formatFileSize(selectedFile.size)}}</p>
+            </div>
+            </div>
+        </div>
+        
+        <div class="upload-actions mt-3" *ngIf="selectedFile">
+            <button class="btn btn-primary" (click)="uploadFile()" [disabled]="isUploading">
+            <span *ngIf="isUploading">Uploading...</span>
+            <span *ngIf="!isUploading">Upload and Process</span>
+            </button>
+            <button class="btn btn-secondary ml-2" (click)="clearFile()">Clear</button>
+        </div>
+        
+        <div class="upload-progress mt-3" *ngIf="isUploading">
+            <div class="progress">
+            <div class="progress-bar" [style.width.%]="uploadProgress"></div>
+            </div>
+            <p class="text-center">{{uploadProgress}}% Complete</p>
+        </div>
+        </div>
+        
+        <div class="card mt-3">
+        <h3>Template and Instructions</h3>
+        <p>Download the template file and follow the instructions to prepare your data.</p>
+        
+        <div class="mt-3">
+            <button class="btn btn-primary" (click)="downloadTemplate()">Download Template</button>
+        </div>
+        
+        <div class="instructions mt-3">
+            <h4>Instructions:</h4>
+            <ol>
+            <li>Download and open the template file.</li>
+            <li>Fill in student details according to the column headers.</li>
+            <li>Save the file as Excel (.xlsx) or CSV.</li>
+            <li>Upload the file using the form above.</li>
+            <li>Review the processed data before confirming.</li>
+            </ol>
+            
+            <div class="alert mt-3">
+            <strong>Note:</strong> For uploading photos in bulk, you'll need to include a URL column in your spreadsheet or upload photos separately.
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+        <h3>Upload Status</h3>
+        
+        <div class="status-container">
+            <div *ngIf="!processedRecords.length && !isUploading" class="empty-status">
+            <p>No data has been processed yet. Upload a file to start.</p>
+            </div>
+            
+            <div *ngIf="isUploading" class="processing-status">
+            <p>Processing your file... Please wait.</p>
+            </div>
+            
+            <div *ngIf="processedRecords.length" class="result-status">
+            <div class="status-summary">
+                <div class="status-item">
+                <div class="status-count">{{processedRecords.length}}</div>
+                <div class="status-label">Total Records</div>
+                </div>
+                
+                <div class="status-item success">
+                <div class="status-count">{{successCount}}</div>
+                <div class="status-label">Success</div>
+                </div>
+                
+                <div class="status-item error">
+                <div class="status-count">{{errorCount}}</div>
+                <div class="status-label">Errors</div>
+                </div>
+            </div>
+            
+            <div class="table-responsive mt-3">
+                <table class="table">
+                <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>PRN Number</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let record of processedRecords" 
+                        [class.error-row]="!record.success">
+                    <td>{{record.fullName}}</td>
+                    <td>{{record.prnNumber}}</td>
+                    <td>{{record.courseName}}</td>
+                    <td>
+                        <span *ngIf="record.success" class="status-badge success">Success</span>
+                        <span *ngIf="!record.success" class="status-badge error">Error: {{record.error}}</span>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            
+            <div class="actions mt-3">
+                <button class="btn btn-primary" (click)="generateIDCards()" [disabled]="!successCount">
+                Generate ID Cards
+                </button>
+                <button class="btn btn-secondary ml-2" (click)="clearResults()">
+                Clear Results
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>

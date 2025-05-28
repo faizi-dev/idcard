@@ -107,14 +107,14 @@ app.get('/api/students', async (req, res) => {
 // Get a single student by ID
 app.get('/api/students/:id', async (req, res) => {
   try {
-    // const student = await Student.findById(req.params.id);
-    // if (!student) {
-    //   return res.status(404).json({ error: 'Student not found' });
-    // }
-    // res.json(student);
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+    res.json(student);
     
     // Mock response for demo
-    res.status(404).json({ error: 'Student not found' });
+    //res.status(404).json({ error: 'Student not found' });
   } catch (error) {
     console.error('Error fetching student:', error);
     res.status(500).json({ error: 'Server error' });
@@ -163,7 +163,7 @@ app.post('/api/students', upload.single('photo'), async (req, res) => {
     await QRCode.toFile(qrCodePath, qrCodeData);
     
     // Save student to database
-    // await student.save();
+    await student.save();
     
     // Return the new student
     res.status(201).json(student);
@@ -176,25 +176,25 @@ app.post('/api/students', upload.single('photo'), async (req, res) => {
 // Update a student
 app.put('/api/students/:id', upload.single('photo'), async (req, res) => {
   try {
-    // const student = await Student.findById(req.params.id);
-    // if (!student) {
-    //   return res.status(404).json({ error: 'Student not found' });
-    // }
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
     
     // Update fields
-    // const updateData = { ...req.body, updatedAt: new Date() };
-    // if (req.file) {
-    //   updateData.photoUrl = `/uploads/${req.file.filename}`;
-    // }
+    const updateData = { ...req.body, updatedAt: new Date() };
+    if (req.file) {
+      updateData.photoUrl = `/uploads/${req.file.filename}`;
+    }
     
-    // const updatedStudent = await Student.findByIdAndUpdate(
-    //   req.params.id,
-    //   updateData,
-    //   { new: true }
-    // );
+    const updatedStudent = await Student.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
     
     // Mock response for demo
-    res.status(404).json({ error: 'Student not found' });
+    //res.status(404).json({ error: 'Student not found' });
   } catch (error) {
     console.error('Error updating student:', error);
     res.status(500).json({ error: 'Server error' });
@@ -204,30 +204,30 @@ app.put('/api/students/:id', upload.single('photo'), async (req, res) => {
 // Delete a student
 app.delete('/api/students/:id', async (req, res) => {
   try {
-    // const student = await Student.findByIdAndDelete(req.params.id);
-    // if (!student) {
-    //   return res.status(404).json({ error: 'Student not found' });
-    // }
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
     
-    // // Delete associated files
-    // if (student.photoUrl) {
-    //   const photoPath = path.join(__dirname, '..', student.photoUrl);
-    //   if (fs.existsSync(photoPath)) {
-    //     fs.unlinkSync(photoPath);
-    //   }
-    // }
+    // Delete associated files
+    if (student.photoUrl) {
+      const photoPath = path.join(__dirname, '..', student.photoUrl);
+      if (fs.existsSync(photoPath)) {
+        fs.unlinkSync(photoPath);
+      }
+    }
     
-    // if (student.qrCode) {
-    //   const qrPath = path.join(__dirname, '..', student.qrCode);
-    //   if (fs.existsSync(qrPath)) {
-    //     fs.unlinkSync(qrPath);
-    //   }
-    // }
+    if (student.qrCode) {
+      const qrPath = path.join(__dirname, '..', student.qrCode);
+      if (fs.existsSync(qrPath)) {
+        fs.unlinkSync(qrPath);
+      }
+    }
     
-    // res.json({ message: 'Student deleted successfully' });
+    res.json({ message: 'Student deleted successfully' });
     
     // Mock response for demo
-    res.status(404).json({ error: 'Student not found' });
+    //res.status(404).json({ error: 'Student not found' });
   } catch (error) {
     console.error('Error deleting student:', error);
     res.status(500).json({ error: 'Server error' });

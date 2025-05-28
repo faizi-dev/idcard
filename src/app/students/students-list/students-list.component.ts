@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { StudentService } from '../services/student.service';
-import { Student } from '../models/student.model';
+import { StudentService } from '../../services/student.service';
+import { Student } from '../../models/student.model';
 
 @Component({
-  selector: 'app-print-cards',
+  selector: 'app-students-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './print-cards.component.html',
-  styleUrl: './print-cards.component.scss'
+  imports: [CommonModule, RouterLink, FormsModule],
+  templateUrl: './students-list.component.html',
+  styleUrl: './students-list.component.scss'
 })
-export class PrintCardsComponent implements OnInit {
+export class StudentsListComponent implements OnInit {
   students: Student[] = [];
   filteredStudents: Student[] = [];
-  selectedStudents: string[] = [];
   isLoading = true;
   
   // Filters
@@ -22,22 +22,14 @@ export class PrintCardsComponent implements OnInit {
   courseFilter = '';
   yearFilter = '';
   
-  // Print settings
-  printSettings = {
-    layout: 'single',
-    paperSize: 'a4',
-    includeQR: true,
-    doubleSided: false,
-    showValidity: true
-  };
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 1;
   
   // Options for dropdowns
   yearOptions: number[] = [];
   courseOptions: string[] = ['MBBS', 'BDS', 'BAMS', 'BHMS', 'B.Pharma', 'Nursing', 'Allied Health Sciences'];
-  
-  // For preview
-  previewIds = [1, 2, 3, 4];
-  cardValidTill = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
   constructor(private studentService: StudentService) {
     // Generate year options (current year and 5 years back)
@@ -92,85 +84,29 @@ export class PrintCardsComponent implements OnInit {
       filtered = filtered.filter(student => student.yearOfJoining === parseInt(this.yearFilter));
     }
     
-    this.filteredStudents = filtered;
+    // Apply pagination
+    this.totalPages = Math.ceil(filtered.length / this.pageSize);
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.filteredStudents = filtered.slice(startIndex, startIndex + this.pageSize);
   }
 
-  isSelected(id: string): boolean {
-    return this.selectedStudents.includes(id);
+  resetFilters(): void {
+    this.searchQuery = '';
+    this.courseFilter = '';
+    this.yearFilter = '';
+    this.currentPage = 1;
+    this.applyFilters();
   }
 
-  toggleSelection(id: string): void {
-    const index = this.selectedStudents.indexOf(id);
-    if (index === -1) {
-      this.selectedStudents.push(id);
-    } else {
-      this.selectedStudents.splice(index, 1);
-    }
-    
-    // Update preview
-    this.updatePreview();
+  changePage(page: number): void {
+    this.currentPage = page;
+    this.applyFilters();
   }
 
-  areAllSelected(): boolean {
-    return this.filteredStudents.length > 0 && 
-           this.filteredStudents.every(student => 
-             this.selectedStudents.includes(student._id || '')
-           );
-  }
-
-  toggleSelectAll(): void {
-    if (this.areAllSelected()) {
-      // Deselect all
-      this.filteredStudents.forEach(student => {
-        const index = this.selectedStudents.indexOf(student._id || '');
-        if (index !== -1) {
-          this.selectedStudents.splice(index, 1);
-        }
-      });
-    } else {
-      // Select all
-      this.filteredStudents.forEach(student => {
-        if (student._id && !this.selectedStudents.includes(student._id)) {
-          this.selectedStudents.push(student._id);
-        }
-      });
-    }
-    
-    // Update preview
-    this.updatePreview();
-  }
-
-  clearSelection(): void {
-    this.selectedStudents = [];
-    this.updatePreview();
-  }
-
-  updatePreview(): void {
-    // For demo purposes, we're just using static preview IDs
-    // In a real application, you would use actual student data
-    this.previewIds = this.selectedStudents.length > 0 
-      ? [1, 2, 3, 4].slice(0, Math.min(4, this.selectedStudents.length))
-      : [];
-  }
-
-  printCards(): void {
-    if (this.selectedStudents.length === 0) return;
-    
+  printIDCard(student: Student): void {
     // In a real application, you would implement printing functionality
-    alert(`Printing ${this.selectedStudents.length} ID cards...`);
-    
-    // You could use the StudentService to handle printing
-    /*
-    this.studentService.printMultipleCards(this.selectedStudents).subscribe(
-      response => {
-        console.log('Cards printed successfully:', response);
-      },
-      error => {
-        console.error('Error printing cards:', error);
-        alert('An error occurred while printing the cards. Please try again.');
-      }
-    );
-    */
+    // For now, we'll just simulate it
+    alert(`Printing ID Card for ${student.fullName}...`);
   }
 
   // Load mock data for preview purposes
@@ -178,7 +114,7 @@ export class PrintCardsComponent implements OnInit {
     const mockStudents: Student[] = [];
     
     // Generate mock student data
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= 50; i++) {
       const courseIndex = i % this.courseOptions.length;
       const yearIndex = i % this.yearOptions.length;
       

@@ -11,11 +11,11 @@ export const appRoutes: Routes = [
   },
   { 
     path: 'students', 
-    loadComponent: () => import('./students/students-list.component').then(c => c.StudentsListComponent) 
+    loadComponent: () => import('./students/students-list/students-list.component').then(c => c.StudentsListComponent) 
   },
   { 
     path: 'students/:id', 
-    loadComponent: () => import('./students/student-detail.component').then(c => c.StudentDetailComponent) 
+    loadComponent: () => import('./students/student-detail/student-detail.component').then(c => c.StudentDetailComponent) 
   },
   { 
     path: 'bulk-upload', 

@@ -8,122 +8,70 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   template: `
     <div class="app-container">
-      <header class="main-header">
-        <div class="container">
-          <div class="header-content">
-            <h1 class="logo">
-              <span class="material-icons">school</span>
-              Medical College ID System
-            </h1>
-            <nav class="main-nav">
-              <ul>
-                <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
-                <li><a routerLink="/register" routerLinkActive="active">Register Student</a></li>
-                <li><a routerLink="/students" routerLinkActive="active">View Students</a></li>
-                <li><a routerLink="/bulk-upload" routerLinkActive="active">Bulk Upload</a></li>
-                <li><a routerLink="/print-cards" routerLinkActive="active">Print Cards</a></li>
-              </ul>
-            </nav>
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle lg:hidden" (click)="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" [class.open]="isSidebarOpen">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <span class="material-icons">school</span>
+            <span>Medical College ID</span>
           </div>
         </div>
-      </header>
-      
+        
+        <nav class="sidebar-nav">
+          <a routerLink="/" 
+             routerLinkActive="active" 
+             [routerLinkActiveOptions]="{exact: true}"
+             class="nav-item">
+            <span class="material-icons">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+          
+          <a routerLink="/register" 
+             routerLinkActive="active"
+             class="nav-item">
+            <span class="material-icons">person_add</span>
+            <span>Register Student</span>
+          </a>
+          
+          <a routerLink="/students" 
+             routerLinkActive="active"
+             class="nav-item">
+            <span class="material-icons">people</span>
+            <span>View Students</span>
+          </a>
+          
+          <a routerLink="/bulk-upload" 
+             routerLinkActive="active"
+             class="nav-item">
+            <span class="material-icons">upload_file</span>
+            <span>Bulk Upload</span>
+          </a>
+          
+          <a routerLink="/print-cards" 
+             routerLinkActive="active"
+             class="nav-item">
+            <span class="material-icons">credit_card</span>
+            <span>Print Cards</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
       <main class="main-content">
-        <div class="container">
-          <router-outlet></router-outlet>
-        </div>
+        <router-outlet></router-outlet>
       </main>
-      
-      <footer class="main-footer">
-        <div class="container">
-          <p>&copy; 2025 Medical College ID Card System</p>
-        </div>
-      </footer>
     </div>
-  `,
-  styles: [`
-    .app-container {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    
-    .main-header {
-      background-color: var(--primary-600);
-      color: white;
-      padding: var(--space-2) 0;
-      box-shadow: var(--shadow-md);
-    }
-    
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 1.5rem;
-      margin: 0;
-    }
-    
-    .logo .material-icons {
-      margin-right: var(--space-1);
-    }
-    
-    .main-nav ul {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .main-nav li {
-      margin-left: var(--space-2);
-    }
-    
-    .main-nav a {
-      color: white;
-      text-decoration: none;
-      padding: var(--space-1);
-      transition: all 0.3s ease;
-      border-radius: var(--radius-sm);
-    }
-    
-    .main-nav a:hover, .main-nav a.active {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-    
-    .main-content {
-      flex: 1;
-      padding: var(--space-3) 0;
-    }
-    
-    .main-footer {
-      background-color: var(--neutral-800);
-      color: white;
-      padding: var(--space-2) 0;
-      margin-top: auto;
-    }
-    
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-      }
-      
-      .main-nav {
-        margin-top: var(--space-2);
-        width: 100%;
-        overflow-x: auto;
-      }
-      
-      .main-nav ul {
-        width: max-content;
-      }
-    }
-  `]
+  `
 })
 export class AppComponent {
-  title = 'Medical Student ID System';
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 }

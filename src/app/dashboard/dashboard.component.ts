@@ -9,163 +9,160 @@ import { Chart } from 'chart.js/auto';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <section class="dashboard fade-in">
-      <h2 class="section-title">Dashboard</h2>
+    <section class="dashboard">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-semibold text-surface-900">Dashboard Overview</h2>
+        <div class="flex gap-3">
+          <button class="btn btn-primary" routerLink="/register">
+            <span class="material-icons">person_add</span>
+            New Student
+          </button>
+          <button class="btn btn-secondary" routerLink="/print-cards">
+            <span class="material-icons">print</span>
+            Print Cards
+          </button>
+        </div>
+      </div>
       
-      <div class="row">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <!-- Total Students Card -->
-        <div class="col-md-6 col-lg-3 mb-3">
-          <div class="dashboard-card">
-            <div class="dashboard-card-header">
-              <h3>Total Students</h3>
+        <div class="card hover:shadow-lg transition-all">
+          <div class="flex items-center gap-4">
+            <div class="p-3 rounded-lg bg-primary-100">
+              <span class="material-icons text-primary-600">people</span>
             </div>
-            <div class="dashboard-card-body text-center">
-              <div class="dashboard-stat">{{stats.totalStudents || 0}}</div>
-              <p>Registered students</p>
-              <a routerLink="/students" class="btn btn-primary">View All</a>
+            <div>
+              <h3 class="text-2xl font-bold text-surface-900">{{stats.totalStudents || 0}}</h3>
+              <p class="text-surface-500">Total Students</p>
             </div>
           </div>
         </div>
         
         <!-- IDs Generated Card -->
-        <div class="col-md-6 col-lg-3 mb-3">
-          <div class="dashboard-card">
-            <div class="dashboard-card-header" style="background-color: var(--secondary-500);">
-              <h3>IDs Generated</h3>
+        <div class="card hover:shadow-lg transition-all">
+          <div class="flex items-center gap-4">
+            <div class="p-3 rounded-lg bg-success-50">
+              <span class="material-icons text-success-500">credit_card</span>
             </div>
-            <div class="dashboard-card-body text-center">
-              <div class="dashboard-stat" style="color: var(--secondary-600);">{{stats.totalCards || 0}}</div>
-              <p>ID cards generated</p>
-              <a routerLink="/print-cards" class="btn btn-secondary">Print Cards</a>
+            <div>
+              <h3 class="text-2xl font-bold text-surface-900">{{stats.totalCards || 0}}</h3>
+              <p class="text-surface-500">IDs Generated</p>
             </div>
           </div>
         </div>
         
         <!-- New Registrations Card -->
-        <div class="col-md-6 col-lg-3 mb-3">
-          <div class="dashboard-card">
-            <div class="dashboard-card-header" style="background-color: var(--accent-500);">
-              <h3>New Registrations</h3>
+        <div class="card hover:shadow-lg transition-all">
+          <div class="flex items-center gap-4">
+            <div class="p-3 rounded-lg bg-warning-50">
+              <span class="material-icons text-warning-500">how_to_reg</span>
             </div>
-            <div class="dashboard-card-body text-center">
-              <div class="dashboard-stat" style="color: var(--accent-600);">{{stats.newRegistrations || 0}}</div>
-              <p>In the last 7 days</p>
-              <a routerLink="/register" class="btn btn-accent">New Registration</a>
+            <div>
+              <h3 class="text-2xl font-bold text-surface-900">{{stats.newRegistrations || 0}}</h3>
+              <p class="text-surface-500">New This Week</p>
             </div>
           </div>
         </div>
         
         <!-- Course Distribution Card -->
-        <div class="col-md-6 col-lg-3 mb-3">
-          <div class="dashboard-card">
-            <div class="dashboard-card-header" style="background-color: var(--success-500);">
-              <h3>Course Distribution</h3>
+        <div class="card hover:shadow-lg transition-all">
+          <div class="flex items-center gap-4">
+            <div class="p-3 rounded-lg bg-error-50">
+              <span class="material-icons text-error-500">school</span>
             </div>
-            <div class="dashboard-card-body text-center">
-              <div class="dashboard-stat" style="color: var(--success-600);">{{stats.courseCount || 0}}</div>
-              <p>Different courses</p>
-              <a routerLink="/students" class="btn" style="background-color: var(--success-500); color: white;">View Details</a>
+            <div>
+              <h3 class="text-2xl font-bold text-surface-900">{{stats.courseCount || 0}}</h3>
+              <p class="text-surface-500">Active Courses</p>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="row mt-3">
-        <!-- Chart for Course Distribution -->
-        <div class="col-md-6 mb-3">
-          <div class="card">
-            <h3>Course Distribution</h3>
-            <div>
-              <canvas id="courseChart"></canvas>
-            </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <!-- Course Distribution Chart -->
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-surface-900">Course Distribution</h3>
+            <span class="material-icons text-surface-400">donut_large</span>
+          </div>
+          <div class="h-[300px]">
+            <canvas id="courseChart"></canvas>
           </div>
         </div>
         
-        <!-- Chart for Yearly Registration -->
-        <div class="col-md-6 mb-3">
-          <div class="card">
-            <h3>Yearly Registration</h3>
-            <div>
-              <canvas id="yearlyChart"></canvas>
-            </div>
+        <!-- Yearly Registration Chart -->
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-surface-900">Yearly Registration</h3>
+            <span class="material-icons text-surface-400">trending_up</span>
+          </div>
+          <div class="h-[300px]">
+            <canvas id="yearlyChart"></canvas>
           </div>
         </div>
       </div>
       
-      <div class="row mt-3">
-        <!-- Recent Registrations -->
-        <div class="col-12">
-          <div class="card">
-            <h3>Recent Registrations</h3>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>PRN Number</th>
-                    <th>Course</th>
-                    <th>Registration Date</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let student of recentStudents">
-                    <td>{{student.fullName}}</td>
-                    <td>{{student.prnNumber}}</td>
-                    <td>{{student.courseName}}</td>
-                    <td>{{student.createdAt | date:'medium'}}</td>
-                    <td>
-                      <a [routerLink]="['/students', student._id]" class="btn btn-sm btn-primary">View</a>
-                    </td>
-                  </tr>
-                  <tr *ngIf="!recentStudents.length">
-                    <td colspan="5" class="text-center">No recent registrations</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <!-- Recent Registrations -->
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-surface-900">Recent Registrations</h3>
+          <button class="btn btn-secondary" routerLink="/students">
+            View All
+          </button>
+        </div>
+        
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>PRN Number</th>
+                <th>Course</th>
+                <th>Registration Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of recentStudents">
+                <td class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-surface-200 flex items-center justify-center">
+                    <span class="material-icons text-surface-500">person</span>
+                  </div>
+                  <span>{{student.fullName}}</span>
+                </td>
+                <td>{{student.prnNumber}}</td>
+                <td>
+                  <span class="px-2 py-1 rounded-full text-sm" 
+                        [ngClass]="{
+                          'bg-primary-50 text-primary-700': student.courseName === 'MBBS',
+                          'bg-success-50 text-success-700': student.courseName === 'BDS',
+                          'bg-warning-50 text-warning-700': student.courseName === 'BAMS'
+                        }">
+                    {{student.courseName}}
+                  </span>
+                </td>
+                <td>{{student.createdAt | date:'medium'}}</td>
+                <td>
+                  <button class="btn btn-secondary" [routerLink]="['/students', student._id]">
+                    <span class="material-icons">visibility</span>
+                    View
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="!recentStudents.length">
+                <td colspan="5" class="text-center py-8">
+                  <div class="flex flex-col items-center gap-2 text-surface-500">
+                    <span class="material-icons text-4xl">person_add_disabled</span>
+                    <p>No recent registrations found</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
-  `,
-  styles: [`
-    .dashboard {
-      animation: fadeIn 0.5s ease-in;
-    }
-    
-    .section-title {
-      margin-bottom: var(--space-3);
-      color: var(--primary-700);
-      border-bottom: 2px solid var(--primary-200);
-      padding-bottom: var(--space-1);
-    }
-    
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    
-    .table th, .table td {
-      padding: var(--space-1);
-      text-align: left;
-      border-bottom: 1px solid var(--neutral-200);
-    }
-    
-    .table th {
-      background-color: var(--neutral-100);
-      font-weight: 500;
-    }
-    
-    .table-responsive {
-      overflow-x: auto;
-    }
-    
-    .btn-sm {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.875rem;
-    }
-  `]
+  `
 })
 export class DashboardComponent implements OnInit {
   stats: any = {};
@@ -185,7 +182,6 @@ export class DashboardComponent implements OnInit {
         this.stats = data;
         this.recentStudents = data.recentStudents || [];
         
-        // Initialize charts after data is loaded
         setTimeout(() => {
           this.initCourseChart(data.courseDistribution || []);
           this.initYearlyChart(data.yearlyRegistration || []);
@@ -193,13 +189,11 @@ export class DashboardComponent implements OnInit {
       },
       error => {
         console.error('Error loading dashboard data:', error);
-        // Use mock data for demo purposes
         this.loadMockData();
       }
     );
   }
 
-  // Initialize course distribution chart
   initCourseChart(courseData: any[]): void {
     const ctx = document.getElementById('courseChart') as HTMLCanvasElement;
     if (!ctx) return;
@@ -208,34 +202,39 @@ export class DashboardComponent implements OnInit {
     const data = courseData.map(item => item.count);
     
     this.courseChart = new Chart(ctx, {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels: labels,
         datasets: [{
-          label: 'Students per Course',
           data: data,
           backgroundColor: [
-            'rgba(25, 118, 210, 0.7)',
-            'rgba(0, 137, 123, 0.7)',
-            'rgba(173, 20, 87, 0.7)',
-            'rgba(76, 175, 80, 0.7)',
-            'rgba(255, 193, 7, 0.7)'
+            'rgba(99, 102, 241, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(239, 68, 68, 0.8)',
+            'rgba(139, 92, 246, 0.8)'
           ],
-          borderWidth: 1
+          borderWidth: 0
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'right'
+            position: 'right',
+            labels: {
+              padding: 20,
+              font: {
+                family: 'Inter'
+              }
+            }
           }
         }
       }
     });
   }
 
-  // Initialize yearly registration chart
   initYearlyChart(yearlyData: any[]): void {
     const ctx = document.getElementById('yearlyChart') as HTMLCanvasElement;
     if (!ctx) return;
@@ -244,24 +243,41 @@ export class DashboardComponent implements OnInit {
     const data = yearlyData.map(item => item.count);
     
     this.yearlyChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: labels,
         datasets: [{
-          label: 'Registrations by Year',
+          label: 'Students Registered',
           data: data,
-          backgroundColor: 'rgba(25, 118, 210, 0.7)',
-          borderColor: 'rgba(25, 118, 210, 1)',
-          borderWidth: 1
+          borderColor: 'rgb(99, 102, 241)',
+          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+          tension: 0.4,
+          fill: true
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
         scales: {
           y: {
             beginAtZero: true,
             ticks: {
-              precision: 0
+              precision: 0,
+              font: {
+                family: 'Inter'
+              }
+            }
+          },
+          x: {
+            ticks: {
+              font: {
+                family: 'Inter'
+              }
             }
           }
         }
@@ -269,7 +285,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Load mock data for preview purposes
   loadMockData(): void {
     this.stats = {
       totalStudents: 152,
@@ -302,7 +317,6 @@ export class DashboardComponent implements OnInit {
       }
     ];
     
-    // Initialize mock charts
     setTimeout(() => {
       this.initCourseChart([
         { course: 'MBBS', count: 80 },

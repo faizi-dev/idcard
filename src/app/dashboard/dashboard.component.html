@@ -1,153 +1,173 @@
-<section class="dashboard">
-    <div class="flex items-center justify-between mb-4">
-    <h2 class="text-2xl font-semibold text-surface-900">Dashboard Overview</h2>
-    <div class="flex gap-3">
-        <button class="btn btn-primary" routerLink="/register">
-        <span class="material-icons">person_add</span>
-        New Student
-        </button>
-        <button class="btn btn-secondary" routerLink="/print-cards">
-        <span class="material-icons">print</span>
-        Print Cards
-        </button>
-    </div>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-    <!-- Total Students Card -->
-    <div class="card hover:shadow-lg transition-all">
-        <div class="flex items-center gap-4">
-        <div class="p-3 rounded-lg bg-primary-100">
-            <span class="material-icons text-primary-600">people</span>
-        </div>
+<section class="dashboard fade-in">
+    <div class="flex items-center justify-between mb-6">
         <div>
-            <h3 class="text-2xl font-bold text-surface-900">{{stats.totalStudents || 0}}</h3>
-            <p class="text-surface-500">Total Students</p>
+            <h2 class="text-3xl font-bold text-surface-900 mb-2">Welcome Back!</h2>
+            <p class="text-surface-600">Here's what's happening with your medical college.</p>
         </div>
-        </div>
-    </div>
-    
-    <!-- IDs Generated Card -->
-    <div class="card hover:shadow-lg transition-all">
-        <div class="flex items-center gap-4">
-        <div class="p-3 rounded-lg bg-success-50">
-            <span class="material-icons text-success-500">credit_card</span>
-        </div>
-        <div>
-            <h3 class="text-2xl font-bold text-surface-900">{{stats.totalCards || 0}}</h3>
-            <p class="text-surface-500">IDs Generated</p>
-        </div>
+        <div class="flex gap-3">
+            <button class="btn btn-primary" routerLink="/register">
+                <span class="material-icons">person_add</span>
+                New Student
+            </button>
+            <button class="btn btn-secondary" routerLink="/print-cards">
+                <span class="material-icons">print</span>
+                Print Cards
+            </button>
         </div>
     </div>
     
-    <!-- New Registrations Card -->
-    <div class="card hover:shadow-lg transition-all">
-        <div class="flex items-center gap-4">
-        <div class="p-3 rounded-lg bg-warning-50">
-            <span class="material-icons text-warning-500">how_to_reg</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <!-- Total Students Card -->
+        <div class="card hover:shadow-lg transition-all bg-gradient-to-br from-primary-500 to-primary-600 text-white">
+            <div class="flex items-center gap-4">
+                <div class="p-4 rounded-lg bg-white/20">
+                    <span class="material-icons text-3xl">people</span>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-white mb-1">{{stats.totalStudents || 0}}</h3>
+                    <p class="text-primary-100">Total Students</p>
+                </div>
+            </div>
         </div>
-        <div>
-            <h3 class="text-2xl font-bold text-surface-900">{{stats.newRegistrations || 0}}</h3>
-            <p class="text-surface-500">New This Week</p>
+        
+        <!-- IDs Generated Card -->
+        <div class="card hover:shadow-lg transition-all bg-gradient-to-br from-success-500 to-success-600 text-white">
+            <div class="flex items-center gap-4">
+                <div class="p-4 rounded-lg bg-white/20">
+                    <span class="material-icons text-3xl">credit_card</span>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-white mb-1">{{stats.totalCards || 0}}</h3>
+                    <p class="text-success-100">IDs Generated</p>
+                </div>
+            </div>
         </div>
+        
+        <!-- New Registrations Card -->
+        <div class="card hover:shadow-lg transition-all bg-gradient-to-br from-warning-500 to-warning-600 text-white">
+            <div class="flex items-center gap-4">
+                <div class="p-4 rounded-lg bg-white/20">
+                    <span class="material-icons text-3xl">how_to_reg</span>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-white mb-1">{{stats.newRegistrations || 0}}</h3>
+                    <p class="text-warning-100">New This Week</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course Distribution Card -->
+        <div class="card hover:shadow-lg transition-all bg-gradient-to-br from-error-500 to-error-600 text-white">
+            <div class="flex items-center gap-4">
+                <div class="p-4 rounded-lg bg-white/20">
+                    <span class="material-icons text-3xl">school</span>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-white mb-1">{{stats.courseCount || 0}}</h3>
+                    <p class="text-error-100">Active Courses</p>
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- Course Distribution Card -->
-    <div class="card hover:shadow-lg transition-all">
-        <div class="flex items-center gap-4">
-        <div class="p-3 rounded-lg bg-error-50">
-            <span class="material-icons text-error-500">school</span>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <!-- Course Distribution Chart -->
+        <div class="card">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-surface-900 mb-1">Course Distribution</h3>
+                    <p class="text-surface-600">Student enrollment by course</p>
+                </div>
+                <span class="material-icons text-primary-500 text-3xl">donut_large</span>
+            </div>
+            <div class="h-[300px]">
+                <canvas id="courseChart"></canvas>
+            </div>
         </div>
-        <div>
-            <h3 class="text-2xl font-bold text-surface-900">{{stats.courseCount || 0}}</h3>
-            <p class="text-surface-500">Active Courses</p>
+        
+        <!-- Yearly Registration Chart -->
+        <div class="card">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-surface-900 mb-1">Yearly Registration</h3>
+                    <p class="text-surface-600">Student registration trends</p>
+                </div>
+                <span class="material-icons text-primary-500 text-3xl">trending_up</span>
+            </div>
+            <div class="h-[300px]">
+                <canvas id="yearlyChart"></canvas>
+            </div>
         </div>
-        </div>
-    </div>
-    </div>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-    <!-- Course Distribution Chart -->
-    <div class="card">
-        <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-surface-900">Course Distribution</h3>
-        <span class="material-icons text-surface-400">donut_large</span>
-        </div>
-        <div class="h-[300px]">
-        <canvas id="courseChart"></canvas>
-        </div>
-    </div>
-    
-    <!-- Yearly Registration Chart -->
-    <div class="card">
-        <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-surface-900">Yearly Registration</h3>
-        <span class="material-icons text-surface-400">trending_up</span>
-        </div>
-        <div class="h-[300px]">
-        <canvas id="yearlyChart"></canvas>
-        </div>
-    </div>
     </div>
     
     <!-- Recent Registrations -->
     <div class="card">
-    <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-surface-900">Recent Registrations</h3>
-        <button class="btn btn-secondary" routerLink="/students">
-        View All
-        </button>
-    </div>
-    
-    <div class="table-container">
-        <table class="table">
-        <thead>
-            <tr>
-            <th>Student</th>
-            <th>PRN Number</th>
-            <th>Course</th>
-            <th>Registration Date</th>
-            <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let student of recentStudents">
-            <td class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-surface-200 flex items-center justify-center">
-                <span class="material-icons text-surface-500">person</span>
-                </div>
-                <span>{{student.fullName}}</span>
-            </td>
-            <td>{{student.prnNumber}}</td>
-            <td>
-                <span class="px-2 py-1 rounded-full text-sm" 
-                    [ngClass]="{
-                        'bg-primary-50 text-primary-700': student.courseName === 'MBBS',
-                        'bg-success-50 text-success-700': student.courseName === 'BDS',
-                        'bg-warning-50 text-warning-700': student.courseName === 'BAMS'
-                    }">
-                {{student.courseName}}
-                </span>
-            </td>
-            <td>{{student.createdAt | date:'medium'}}</td>
-            <td>
-                <button class="btn btn-secondary" [routerLink]="['/students', student._id]">
-                <span class="material-icons">visibility</span>
-                View
-                </button>
-            </td>
-            </tr>
-            <tr *ngIf="!recentStudents.length">
-            <td colspan="5" class="text-center py-8">
-                <div class="flex flex-col items-center gap-2 text-surface-500">
-                <span class="material-icons text-4xl">person_add_disabled</span>
-                <p>No recent registrations found</p>
-                </div>
-            </td>
-            </tr>
-        </tbody>
-        </table>
-    </div>
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl font-bold text-surface-900 mb-1">Recent Registrations</h3>
+                <p class="text-surface-600">Latest student enrollments</p>
+            </div>
+            <button class="btn btn-secondary" routerLink="/students">
+                View All
+            </button>
+        </div>
+        
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>PRN Number</th>
+                        <th>Course</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let student of recentStudents">
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                    <span class="material-icons text-primary-600">person</span>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-surface-900">{{student.fullName}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="font-medium text-surface-700">{{student.prnNumber}}</span>
+                        </td>
+                        <td>
+                            <span class="status-badge" 
+                                [ngClass]="{
+                                    'success': student.courseName === 'MBBS',
+                                    'warning': student.courseName === 'BDS',
+                                    'error': student.courseName === 'BAMS'
+                                }">
+                                {{student.courseName}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-surface-600">{{student.createdAt | date:'medium'}}</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary" [routerLink]="['/students', student._id]">
+                                <span class="material-icons">visibility</span>
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!recentStudents.length">
+                        <td colspan="5" class="text-center py-8">
+                            <div class="flex flex-col items-center gap-2 text-surface-500">
+                                <span class="material-icons text-4xl">person_add_disabled</span>
+                                <p>No recent registrations found</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>

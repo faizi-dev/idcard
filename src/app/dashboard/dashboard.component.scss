@@ -2,34 +2,93 @@
     animation: fadeIn 0.5s ease-in;
 }
 
-.section-title {
-    margin-bottom: var(--space-3);
-    color: var(--primary-700);
-    border-bottom: 2px solid var(--primary-200);
-    padding-bottom: var(--space-1);
+.card {
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary-400), var(--primary-600));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    &:hover::before {
+        opacity: 1;
+    }
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    
+    &.success {
+        background: var(--success-50);
+        color: var(--success-700);
+    }
+    
+    &.warning {
+        background: var(--warning-50);
+        color: var(--warning-700);
+    }
+    
+    &.error {
+        background: var(--error-50);
+        color: var(--error-700);
+    }
 }
 
 .table {
-    width: 100%;
-    border-collapse: collapse;
+    th {
+        font-weight: 600;
+        color: var(--surface-700);
+        background: var(--surface-50);
+        padding: 1rem;
+        
+        &:first-child {
+            border-top-left-radius: var(--radius-lg);
+        }
+        
+        &:last-child {
+            border-top-right-radius: var(--radius-lg);
+        }
+    }
+    
+    td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+    
+    tr {
+        transition: all 0.2s ease;
+        
+        &:hover {
+            background: var(--surface-50);
+        }
+    }
 }
 
-.table th, .table td {
-    padding: var(--space-1);
-    text-align: left;
-    border-bottom: 1px solid var(--neutral-200);
-}
-
-.table th {
-    background-color: var(--neutral-100);
-    font-weight: 500;
-}
-
-.table-responsive {
-    overflow-x: auto;
-}
-
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .table {
+        min-width: 800px;
+    }
 }

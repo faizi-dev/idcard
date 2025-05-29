@@ -1,0 +1,35 @@
+.dashboard {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.section-title {
+    margin-bottom: var(--space-3);
+    color: var(--primary-700);
+    border-bottom: 2px solid var(--primary-200);
+    padding-bottom: var(--space-1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: var(--space-1);
+    text-align: left;
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+.table th {
+    background-color: var(--neutral-100);
+    font-weight: 500;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}

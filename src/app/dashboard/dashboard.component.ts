@@ -8,7 +8,8 @@ import { Chart } from 'chart.js/auto';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss' 
 })
 export class DashboardComponent implements OnInit {
   stats: any = {};
